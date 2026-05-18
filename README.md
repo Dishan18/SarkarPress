@@ -82,14 +82,4 @@ sarkarpress-web/
 
 ## Deployment
 
-This project is optimized for deployment on **Vercel**. 
-
-### Quick Deploy
-
-1. Push your code to a GitHub repository.
-2. Go to [Vercel](https://vercel.com/new).
-3. Import your GitHub repository.
-4. Vercel will automatically detect it as a **Next.js** project.
-5. Click **Deploy**. Your site will be live in 1-2 minutes!
-
-*(Note: There are no environment variables required to run this static application).*
+https://sarkar-press.vercel.app

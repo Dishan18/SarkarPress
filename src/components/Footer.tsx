@@ -6,17 +6,17 @@ import Link from "next/link";
 const WHATSAPP_NUMBER = "919679091725";
 
 const quickLinks = [
-  { href: "#home", label: "Home" },
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About" },
-  { href: "#enquiry", label: "Enquiry" },
+  { href: "/#home", label: "Home" },
+  { href: "/#services", label: "Services" },
+  { href: "/#about", label: "About" },
+  { href: "/#enquiry", label: "Enquiry" },
   { href: "/terms", label: "Terms" },
 ];
 
 function SocialIcon({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <a
-      href="#contact"
+      href="/#contact"
       aria-label={label}
       className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--line)] bg-[color:var(--soft)] text-[color:var(--muted)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
     >
@@ -30,7 +30,7 @@ export default function Footer() {
     <footer className="footer-shell" id="footer">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-16 sm:grid-cols-2 lg:grid-cols-[1.05fr_0.65fr_1.15fr] lg:py-20">
         <div>
-          <Link href="#home" className="inline-flex items-center gap-3">
+          <Link href="/#home" className="inline-flex items-center gap-3">
             <span className="relative grid h-12 w-12 place-items-center overflow-hidden rounded-full bg-white">
               <Image src="/Logofinal.png" alt="" fill sizes="48px" className="object-contain p-1" />
             </span>

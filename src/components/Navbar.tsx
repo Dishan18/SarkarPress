@@ -5,14 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
-
-const links = [
-  { href: "#home", label: "Home" },
-  { href: "#services", label: "Services" },
-  { href: "#about", label: "About" },
-  { href: "#enquiry", label: "Enquiry" },
-  { href: "#contact", label: "Contact" },
-];
+import { useTranslation, Lang } from "@/context/TranslationContext";
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
@@ -24,10 +17,83 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
+function LanguageDropdown() {
+  const { lang, setLang } = useTranslation();
+  const [open, setOpen] = useState(false);
+
+  const langs = [
+    { code: "en", label: "EN" },
+    { code: "hi", label: "HI" },
+    { code: "bn", label: "BN" },
+  ] as const;
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex h-10 items-center gap-1.5 rounded-full border border-[color:var(--line)] bg-[color:var(--soft)] px-3 text-xs font-black uppercase text-[color:var(--text)] transition hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+        aria-label="Select Language"
+      >
+        {lang}
+        <motion.svg
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="h-3 w-3"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+        </motion.svg>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="absolute right-0 top-full z-50 mt-2 w-20 overflow-hidden rounded-[20px] border border-[color:var(--line)] bg-[color:var(--nav-bg)] p-1 shadow-[0_12px_40px_rgba(0,0,0,0.12)] backdrop-blur-2xl"
+            >
+              {langs.map((l) => (
+                <button
+                  key={l.code}
+                  onClick={() => {
+                    setLang(l.code);
+                    setOpen(false);
+                  }}
+                  className={`block w-full rounded-xl px-4 py-2.5 text-center text-xs font-bold transition hover:bg-[color:var(--soft)] hover:text-[color:var(--accent)] ${
+                    lang === l.code ? "bg-[color:var(--soft)] text-[color:var(--accent)]" : "text-[color:var(--muted)]"
+                  }`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { t } = useTranslation();
+
+  const links = [
+    { href: "/#home", label: t("footer_home") },
+    { href: "/#services", label: t("nav_services") },
+    { href: "/#about", label: t("nav_about") },
+    { href: "/#enquiry", label: t("nav_enquiry") },
+    { href: "/#contact", label: t("nav_contact") },
+  ];
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 16);
@@ -50,11 +116,11 @@ export default function Navbar() {
             : "border-[color:var(--line)] bg-[color:var(--nav-idle-bg)] backdrop-blur-xl"
         }`}
       >
-        <Link href="#home" className="flex min-w-0 items-center gap-3" aria-label="Sarkar Press home" onClick={() => setOpen(false)}>
+        <Link href="/#home" className="flex min-w-0 items-center gap-3" aria-label="Sarkar Press home" onClick={() => setOpen(false)}>
           <span className="relative grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full border border-[color:var(--line)] bg-white">
             <Image src="/Logofinal.png" alt="" fill sizes="40px" className="object-contain p-1" />
           </span>
-          <span className="truncate text-sm font-black uppercase tracking-[0.18em] text-[color:var(--text)]">
+          <span className="hidden sm:inline truncate text-sm font-black uppercase tracking-[0.18em] text-[color:var(--text)]">
             Sarkar Press
           </span>
         </Link>
@@ -72,6 +138,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageDropdown />
           <button
             type="button"
             onClick={toggleTheme}

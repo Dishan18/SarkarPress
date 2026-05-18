@@ -6,78 +6,9 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import { useEffect, useMemo, useState } from "react";
 import AnimatedStat from "@/components/AnimatedStat";
 import LogoMarquee from "@/components/LogoMarquee";
+import { useTranslation } from "@/context/TranslationContext";
 
 const WHATSAPP_NUMBER = "919679091725";
-
-const services = [
-  {
-    title: "Offset Printing",
-    description: "High volume print production with crisp color, steady registration, and refined paper handling.",
-  },
-  {
-    title: "Digital Printing",
-    description: "Fast short runs, sharp details, and flexible output for business, events, and urgent campaigns.",
-  },
-  {
-    title: "Banner & Flex Printing",
-    description: "Large format display prints with strong color impact for shops, events, promotions, and launches.",
-  },
-  {
-    title: "Customized Printing",
-    description: "Made to order print solutions for merchandise, branded materials, gifts, and special requirements.",
-  },
-  {
-    title: "Vinyl Printing",
-    description: "Durable vinyl graphics built for visibility, clean installation, and long lasting brand presence.",
-  },
-  {
-    title: "Lamination",
-    description: "Protective finishes, matte texture, gloss polish, and final detailing for premium output.",
-  },
-  {
-    title: "Commercial Printing",
-    description: "Business cards, brochures, catalogs, posters, forms, and corporate print work delivered with care.",
-  },
-  {
-    title: "Consumer Printing",
-    description: "Everyday personal printing with clean results, quick support, and dependable local service.",
-  },
-  {
-    title: "Packaging Printing",
-    description: "Labels, stickers, sleeves, and packaging prints shaped for shelf appeal and brand consistency.",
-  },
-  {
-    title: "T-Shirt Printing",
-    description: "Custom apparel prints for teams, events, uniforms, creators, and promotional merchandise.",
-  },
-];
-
-const testimonials = [
-  {
-    quote:
-      "Sharp color, clean finishing, and timelines we can actually depend on. Sarkar Press feels like a production partner.",
-    name: "Corporate Client",
-    role: "Marketing Team",
-  },
-  {
-    quote:
-      "From flex banners to catalog work, the output has been consistent and the team communicates clearly.",
-    name: "Local Enterprise",
-    role: "Retail Operations",
-  },
-  {
-    quote:
-      "Premium print quality without the usual back-and-forth. Fast, precise, and easy to work with.",
-    name: "Event Organizer",
-    role: "Brand Activation",
-  },
-  {
-    quote:
-      "Their custom printing support helped us get packaging and stickers ready quickly for a launch.",
-    name: "Startup Founder",
-    role: "Product Brand",
-  },
-];
 
 const reveal = {
   hidden: { opacity: 0, y: 28 },
@@ -113,29 +44,40 @@ function SectionIntro({
   );
 }
 
-function ServicesSection({
-  items,
-}: {
-  items: Array<{ title: string; description: string }>;
-}) {
+function ServicesSection() {
+  const { t } = useTranslation();
+  
+  const services = useMemo(() => [
+    { title: t("service_title_1"), description: t("service_desc_1") },
+    { title: t("service_title_2"), description: t("service_desc_2") },
+    { title: t("service_title_3"), description: t("service_desc_3") },
+    { title: t("service_title_4"), description: t("service_desc_4") },
+    { title: t("service_title_5"), description: t("service_desc_5") },
+    { title: t("service_title_6"), description: t("service_desc_6") },
+    { title: t("service_title_7"), description: t("service_desc_7") },
+    { title: t("service_title_8"), description: t("service_desc_8") },
+    { title: t("service_title_9"), description: t("service_desc_9") },
+    { title: t("service_title_10"), description: t("service_desc_10") },
+  ], [t]);
+
   return (
     <section id="services" className="services-section">
       <div className="noise-overlay" />
       <div className="mx-auto max-w-6xl px-5">
         <div className="services-heading">
-          <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-[color:var(--accent)]">Services</p>
+          <p className="mb-4 text-xs font-black uppercase tracking-[0.3em] text-[color:var(--accent)]">{t("services_eyebrow")}</p>
           <h2 className="text-balance text-4xl font-black leading-[0.98] tracking-[-0.04em] text-[color:var(--text)] sm:text-5xl lg:text-6xl">
-            Print work with production discipline.
+            {t("services_heading")}
           </h2>
           <p className="mt-6 max-w-2xl text-base leading-8 text-[color:var(--muted)] sm:text-lg">
-            A focused production suite for commercial print, large format work, custom merchandise, packaging, and everyday consumer needs.
+            {t("services_desc")}
           </p>
         </div>
 
         <div className="services-grid">
-          {items.map((service, index) => (
+          {services.map((service, index) => (
             <motion.article
-              key={service.title}
+              key={index}
               className="service-card group"
               variants={reveal}
               initial="hidden"
@@ -157,7 +99,7 @@ function ServicesSection({
 
         <div className="services-client-transition">
           <div className="h-px flex-1 bg-gradient-to-r from-transparent via-[color:var(--line)] to-[color:var(--soft)]" />
-          <span>Notable Clients</span>
+          <span>{t("notable_clients")}</span>
           <div className="h-px flex-1 bg-gradient-to-l from-transparent via-[color:var(--line)] to-[color:var(--soft)]" />
         </div>
         <LogoMarquee />
@@ -168,6 +110,7 @@ function ServicesSection({
 
 function LoadingIntro() {
   const [visible, setVisible] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const timer = window.setTimeout(() => setVisible(false), 1250);
@@ -194,7 +137,7 @@ function LoadingIntro() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            Sarkar Press
+            {t("loading_text")}
           </motion.p>
         </motion.div>
       )}
@@ -203,6 +146,7 @@ function LoadingIntro() {
 }
 
 function EnquiryForm() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ name: "", email: "", phone: "", requirement: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
@@ -211,10 +155,10 @@ function EnquiryForm() {
 
   const validate = () => {
     const nextErrors: Record<string, string> = {};
-    if (!form.name.trim()) nextErrors.name = "Name is required.";
-    if (!isValidEmail(form.email)) nextErrors.email = "Enter a valid email.";
-    if (form.phone.replace(/\D/g, "").length < 10) nextErrors.phone = "Enter a valid phone number.";
-    if (form.requirement.trim().length < 8) nextErrors.requirement = "Tell us a little about the print job.";
+    if (!form.name.trim()) nextErrors.name = t("form_name_req");
+    if (!isValidEmail(form.email)) nextErrors.email = t("form_email_req");
+    if (form.phone.replace(/\D/g, "").length < 10) nextErrors.phone = t("form_phone_req");
+    if (form.requirement.trim().length < 8) nextErrors.requirement = t("form_req_req");
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   };
@@ -250,12 +194,12 @@ function EnquiryForm() {
       <div className="relative grid gap-5">
         <div className="grid gap-5 sm:grid-cols-2">
           <label className="grid gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">Name</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">{t("form_name")}</span>
             <input className={fieldClass} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             {errors.name && <span className="text-xs text-[color:var(--accent)]">{errors.name}</span>}
           </label>
           <label className="grid gap-2">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">Email</span>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">{t("form_email")}</span>
             <input
               type="email"
               className={fieldClass}
@@ -266,7 +210,7 @@ function EnquiryForm() {
           </label>
         </div>
         <label className="grid gap-2">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">Phone Number</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">{t("form_phone")}</span>
           <input
             type="tel"
             className={fieldClass}
@@ -277,7 +221,7 @@ function EnquiryForm() {
         </label>
         <label className="grid gap-2">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-[color:var(--muted)]">
-            Printing Requirement / Details
+            {t("form_req")}
           </span>
           <textarea
             className={`${fieldClass} min-h-36 resize-y`}
@@ -292,7 +236,7 @@ function EnquiryForm() {
           className="group inline-flex min-h-14 items-center justify-center overflow-hidden rounded-full bg-[color:var(--accent)] px-8 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_0_42px_var(--accent-glow)] transition hover:-translate-y-0.5 hover:bg-[color:var(--accent-strong)] disabled:cursor-wait disabled:opacity-80"
         >
           <span className="transition group-hover:scale-105">
-            {status === "loading" ? "Preparing WhatsApp..." : status === "success" ? "Opening WhatsApp" : "Send Enquiry"}
+            {status === "loading" ? t("form_prep") : status === "success" ? t("form_open") : t("form_send")}
           </span>
         </button>
       </div>
@@ -304,8 +248,16 @@ export default function HomePage() {
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 700], [0, 140]);
   const heroOpacity = useTransform(scrollY, [0, 620], [1, 0.25]);
+  const { t } = useTranslation();
 
-  const duplicatedTestimonials = useMemo(() => [...testimonials, ...testimonials], []);
+  const testimonials = useMemo(() => [
+    { quote: t("test_quote_1"), name: t("test_name_1"), role: t("test_role_1") },
+    { quote: t("test_quote_2"), name: t("test_name_2"), role: t("test_role_2") },
+    { quote: t("test_quote_3"), name: t("test_name_3"), role: t("test_role_3") },
+    { quote: t("test_quote_4"), name: t("test_name_4"), role: t("test_role_4") },
+  ], [t]);
+  
+  const duplicatedTestimonials = useMemo(() => [...testimonials, ...testimonials], [testimonials]);
 
   return (
     <>
@@ -325,7 +277,7 @@ export default function HomePage() {
             transition={{ delay: 0.25, duration: 0.7 }}
             className="hero-badge mb-7 rounded-full px-5 py-2 text-xs font-bold uppercase tracking-[0.28em] backdrop-blur-xl"
           >
-            Commercial . Custom . Large Format
+            {t("hero_badge")}
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
@@ -333,7 +285,7 @@ export default function HomePage() {
             transition={{ delay: 0.38, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="hero-main-title max-w-5xl text-balance text-6xl font-black leading-[0.88] tracking-[-0.055em] sm:text-7xl md:text-8xl lg:text-[9rem]"
           >
-            Modern Printing Solutions
+            {t("hero_title_new")}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -341,7 +293,7 @@ export default function HomePage() {
             transition={{ delay: 0.54, duration: 0.75 }}
             className="hero-main-copy mt-8 max-w-2xl text-balance text-lg leading-8 sm:text-xl"
           >
-            Commercial, custom, and large-format printing with precision and speed.
+            {t("hero_desc_new")}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -350,10 +302,10 @@ export default function HomePage() {
             className="mt-10 flex flex-col gap-3 sm:flex-row"
           >
             <Link href="#enquiry" className="premium-button bg-[color:var(--accent)] text-white hover:bg-[color:var(--accent-strong)]">
-              Get a Quote
+              {t("hero_quote_btn")}
             </Link>
             <Link href="#services" className="premium-button secondary-button">
-              View Services
+              {t("hero_services_btn")}
             </Link>
           </motion.div>
         </div>
@@ -365,7 +317,7 @@ export default function HomePage() {
           transition={{ delay: 1.1 }}
               className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3 text-[10px] font-bold uppercase tracking-[0.28em] text-[color:var(--hero-muted)]"
         >
-          Scroll
+          {t("scroll")}
           <span className="h-12 w-px overflow-hidden bg-[color:var(--line)]">
             <motion.span
                 className="block h-5 w-px bg-[color:var(--accent)]"
@@ -376,7 +328,7 @@ export default function HomePage() {
         </motion.a>
       </section>
 
-      <ServicesSection items={services} />
+      <ServicesSection />
 
       <section id="about" className="section-shell grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <motion.div
@@ -402,14 +354,14 @@ export default function HomePage() {
         <div>
           <SectionIntro
             align="left"
-            eyebrow="About"
-            title="Built for quality, speed, and reliable production."
-            body="Sarkar Press combines modern machinery, experienced operators, and flexible custom solutions for brands, businesses, events, and institutions. Every job is handled with attention to color, material, finishing, and delivery timelines."
+            eyebrow={t("about_eyebrow")}
+            title={t("about_heading")}
+            body={t("about_text")}
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            <AnimatedStat target={5000} suffix="+" label="Projects Completed" duration={1700} />
-            <AnimatedStat target={50} suffix="+" label="Years Experience" duration={1500} />
-            <AnimatedStat target={1200} suffix="+" label="Clients Served" duration={1800} />
+            <AnimatedStat target={9999} suffix="+" label={t("stat_projects")} duration={1700} />
+            <AnimatedStat target={50} suffix="+" label={t("stat_years")} duration={1500} />
+            <AnimatedStat target={3000} suffix="+" label={t("stat_clients")} duration={1800} />
           </div>
         </div>
       </section>
@@ -417,16 +369,16 @@ export default function HomePage() {
       <section id="enquiry" className="section-shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <SectionIntro
           align="left"
-          eyebrow="Enquiry"
-          title="Tell us what you need printed."
-          body="Submit your details and we will open WhatsApp with a ready-to-send enquiry. You stay in control and send it manually."
+          eyebrow={t("enquiry_eyebrow")}
+          title={t("enquiry_title")}
+          body={t("enquiry_desc")}
         />
         <EnquiryForm />
       </section>
 
       <section className="overflow-hidden py-24 sm:py-32">
         <div className="mx-auto max-w-6xl px-5">
-          <SectionIntro eyebrow="Testimonials" title="Clear communication. Premium output. Fast delivery." />
+          <SectionIntro eyebrow={t("test_eyebrow")} title={t("test_heading")} />
         </div>
         <div className="mt-14 flex overflow-hidden">
           <motion.div
@@ -452,19 +404,19 @@ export default function HomePage() {
           <div className="noise-overlay" />
           <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-[color:var(--accent-soft)] blur-3xl" />
           <div className="relative z-10 mx-auto max-w-3xl">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-[color:var(--accent)]">Start a project</p>
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.28em] text-[color:var(--accent)]">{t("cta_eyebrow")}</p>
             <h2 className="text-balance text-4xl font-black leading-none tracking-[-0.03em] sm:text-6xl">
-              Ready for sharper print production?
+              {t("cta_heading")}
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-[color:var(--muted)]">
-              Get in touch for business cards, brochures, banners, flex, merchandise, finishing, and custom print work.
+              {t("cta_text")}
             </p>
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
               <Link href="#enquiry" className="premium-button bg-[color:var(--accent)] text-white hover:bg-[color:var(--accent-strong)]">
-                Send Enquiry
+                {t("form_send")}
               </Link>
               <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="premium-button secondary-button">
-                WhatsApp
+                {t("cta_whatsapp")}
               </a>
             </div>
           </div>
