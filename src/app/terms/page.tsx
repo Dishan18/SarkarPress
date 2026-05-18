@@ -68,8 +68,8 @@ export default function TermsPage() {
               </li>
               <li>
                 Payment is accepted via UPI, bank transfer, or cash at our
-                office. Full details are available on the{" "}
-                <Link href="/payments">Payments page</Link>.
+                office. Contact us through the{" "}
+                <Link href="/#enquiry">enquiry form</Link> for current details.
               </li>
               <li>
                 For custom or large-volume orders, an advance payment of up to

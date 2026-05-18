@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const logos = [
   { src: "/West-Bengal-300x300.png", alt: "West Bengal Govt" },
   { src: "/WBSEDCL.webp", alt: "WBSEDCL" },
@@ -13,17 +15,23 @@ const logos = [
 ];
 
 export default function LogoMarquee() {
+  const repeatedLogos = [...logos, ...logos];
+
   return (
-    <div className="clients-grid">
-      {logos.map((logo, i) => (
-        <img
-          key={i}
-          src={logo.src}
-          alt={logo.alt}
-          className="client-logo"
-          loading="eager"
-        />
-      ))}
+    <div className="clients-marquee" aria-label="Notable clients">
+      <div className="clients-track">
+        {repeatedLogos.map((logo, i) => (
+          <span className="client-logo-frame" key={`${logo.alt}-${i}`}>
+            <Image
+              src={logo.src}
+              alt={logo.alt}
+              width={160}
+              height={64}
+              className="client-logo"
+            />
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

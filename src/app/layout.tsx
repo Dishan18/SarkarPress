@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { TranslationProvider } from "@/context/TranslationContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Sarkar Press | Modern Printing Solutions",
   description:
-    "Sarkar Press is a super speciality modern printing company in Patashpur, West Bengal. Offset, digital, flex, and customized printing with unmatched quality.",
+    "Modern commercial, custom, and large-format printing from Sarkar Press with premium quality, fast delivery, and reliable service.",
   keywords:
-    "printing press, offset printing, digital printing, flex printing, West Bengal, Patashpur",
+    "printing press, commercial printing, banner printing, flex printing, custom printing, West Bengal, Patashpur",
   icons: {
     icon: "/Favicon.jpg",
     apple: "/Favicon.jpg",
@@ -24,11 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <TranslationProvider>
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-        </TranslationProvider>
+        <ThemeProvider>
+          <TranslationProvider>
+            <Navbar />
+            <main>{children}</main>
+            <Footer />
+          </TranslationProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
